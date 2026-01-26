@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
 
-const Contact = () => {
+const Contact = ({ onNavigateToLogin }) => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -236,17 +236,18 @@ const Contact = () => {
       </div>
 
       {/* Google Map Section */}
-      <section className="map-section">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.0395389089893!2d83.18625!3d26.764319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399177c8c8c8c8c9%3A0x1234567890!2sFour%20Wheel%20Alam%20Car%20Bazar%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1234567890"
-          width="100%"
-          height="450"
-          style={{ border: 0, borderRadius: '24px' }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </section>
+      <section className="map-section mt-10">
+  <iframe
+    src="https://www.google.com/maps?q=Gorakhpur%20Uttar%20Pradesh&output=embed"
+    width="100%"
+    height="450"
+    style={{ border: 0, borderRadius: "24px" }}
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  ></iframe>
+</section>
+
 
       {/* Footer */}
       <footer className="contact-footer">

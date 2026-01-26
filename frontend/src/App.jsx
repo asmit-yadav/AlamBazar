@@ -1,18 +1,28 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import Contact from './components/Contact'
+import AdminLogin from './components/AdminLogin'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState('login') // 'login' or 'contact'
+
+  const navigateToContact = () => {
+    setCurrentPage('contact')
+  }
+
+  const navigateToLogin = () => {
+    setCurrentPage('login')
+  }
 
   return (
     <>
       <div>
-        <Contact />
-        </div> 
-
+        {currentPage === 'login' ? (
+          <AdminLogin onNavigateToContact={navigateToContact} />
+        ) : (
+          <Contact onNavigateToLogin={navigateToLogin} />
+        )}
+      </div>
     </>
   )
 }
