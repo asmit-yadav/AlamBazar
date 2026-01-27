@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
 
-const Contact = ({ onNavigateToLogin }) => {
+const Contact = ({ onNavigateToLogin, onNavigateToAbout, onNavigateToUsedCar, darkMode, onToggleDarkMode }) => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -63,14 +63,23 @@ const Contact = ({ onNavigateToLogin }) => {
             <p>CAR BAZAR PVT LTD</p>
           </div>
           <nav className="nav-menu">
-            <a href="/">Home</a>
-            <a href="/used-cars">Used Cars</a>
-            <a href="/about">About Us</a>
-            <a href="/contact" className="active">Contact</a>
+            <a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a>
+            <a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a>
+            <a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a>
+            <a href="/contact" className="active" style={{cursor: 'pointer'}}>Contact</a>
           </nav>
-          <a href="tel:+919918476777" className="phone-btn">
-            📞 +91 99184 76777
-          </a>
+          <div className="header-actions">
+            <button 
+              className="dark-mode-toggle" 
+              onClick={onToggleDarkMode}
+              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {darkMode ? '☀️' : '🌙'}
+            </button>
+            <a href="tel:+919918476777" className="phone-btn">
+              📞 +91 99184 76777
+            </a>
+          </div>
         </div>
       </header>
 
@@ -269,11 +278,11 @@ const Contact = ({ onNavigateToLogin }) => {
           <div className="footer-section">
             <h4>Quick Links</h4>
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/used-cars">Used Cars</a></li>
-              <li><a href="/about">About Us</a></li>
-              <li><a href="/contact">Contact Us</a></li>
-              <li><a href="/admin">Admin Login</a></li>
+              <li><a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a></li>
+              <li><a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a></li>
+              <li><a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a></li>
+              <li><a onClick={() => {}} style={{cursor: 'pointer'}}>Contact Us</a></li>
+              <li><a onClick={() => onNavigateToLogin?.()} style={{cursor: 'pointer'}}>Admin Login</a></li>
             </ul>
           </div>
 
