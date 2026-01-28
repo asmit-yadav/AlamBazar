@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../config/firebase';
 import '../styles/Contact.css';
 
-const Contact = ({ onNavigateToLogin, onNavigateToAbout, onNavigateToUsedCar, darkMode, onToggleDarkMode }) => {
+const Contact = ({ user }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -92,170 +96,170 @@ const Contact = ({ onNavigateToLogin, onNavigateToAbout, onNavigateToUsedCar, da
       {/* Main Contact Section */}
       <div className="contact-container">
         <div className="contact-content">
-        {/* Left Section - Showroom Info */}
-        <div className="showroom-section">
-          <h2>Visit Our Showroom</h2>
+          {/* Left Section - Showroom Info */}
+          <div className="showroom-section">
+            <h2>Visit Our Showroom</h2>
 
-          {/* Address */}
-          <div className="contact-info-block">
-            <div className="contact-icon address-icon">📍</div>
-            <div className="contact-details">
-              <h3>Address</h3>
-              <p>Four Wheel Alam Car Bazar Pvt Ltd,<br />
-                Main Road, Daudpur, near Beeaar Hyundai,<br />
-                Gorakhpur, Uttar Pradesh 273001</p>
-            </div>
-          </div>
-
-          {/* Phone */}
-          <div className="contact-info-block">
-            <div className="contact-icon phone-icon">📞</div>
-            <div className="contact-details">
-              <h3>Phone</h3>
-              <p>Mon-Sat from 9am to 8pm<br />
-                <span className="phone-number">+91 99184 76777</span></p>
-            </div>
-          </div>
-
-          {/* Email */}
-          <div className="contact-info-block">
-            <div className="contact-icon email-icon">📧</div>
-            <div className="contact-details">
-              <h3>Email</h3>
-              <p><a href="mailto:info@fourwheelalam.com">info@fourwheelalam.com</a></p>
-            </div>
-          </div>
-
-          {/* Business Hours */}
-          <div className="business-hours">
-            <div className="hours-icon">⏰</div>
-            <h3>Business Hours</h3>
-            <p>Monday - Sunday<span>10:00 AM - 7:00 PM</span></p>
-          </div>
-        </div>
-
-        {/* Right Section - Contact Form */}
-        <div className="message-section">
-          <h2>Send us a Message</h2>
-          <p className="form-subtitle">Fill out the form and we'll get back to you shortly.</p>
-
-          <form onSubmit={handleSubmit}>
-            {/* Name and Phone Row */}
-            <div className="form-row">
-              <div className="form-group">
-                <label>Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
+            {/* Address */}
+            <div className="contact-info-block">
+              <div className="contact-icon address-icon">📍</div>
+              <div className="contact-details">
+                <h3>Address</h3>
+                <p>Four Wheel Alam Car Bazar Pvt Ltd,<br />
+                  Main Road, Daudpur, near Beeaar Hyundai,<br />
+                  Gorakhpur, Uttar Pradesh 273001</p>
               </div>
-              <div className="form-group">
-                <label>Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="+91 ..."
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
+            </div>
+
+            {/* Phone */}
+            <div className="contact-info-block">
+              <div className="contact-icon phone-icon">📞</div>
+              <div className="contact-details">
+                <h3>Phone</h3>
+                <p>Mon-Sat from 9am to 8pm<br />
+                  <span className="phone-number">+91 99184 76777</span></p>
               </div>
             </div>
 
             {/* Email */}
-            <div className="form-group">
-              <label>Email (Optional)</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={handleChange}
-              />
+            <div className="contact-info-block">
+              <div className="contact-icon email-icon">📧</div>
+              <div className="contact-details">
+                <h3>Email</h3>
+                <p><a href="mailto:info@fourwheelalam.com">info@fourwheelalam.com</a></p>
+              </div>
             </div>
 
-            {/* Message */}
-            <div className="form-group">
-              <label>Message</label>
-              <textarea
-                name="message"
-                placeholder="I'm interested in ..."
-                rows="5"
-                value={formData.message}
-                onChange={handleChange}
-                required
-              ></textarea>
+            {/* Business Hours */}
+            <div className="business-hours">
+              <div className="hours-icon">⏰</div>
+              <h3>Business Hours</h3>
+              <p>Monday - Sunday<span>10:00 AM - 7:00 PM</span></p>
             </div>
+          </div>
 
-            {/* Send Button */}
-            <button 
-              type="submit" 
-              className="send-btn"
-              disabled={isLoading}
-            >
-              {isLoading ? '⏳ Sending...' : '✈️ Send Message'}
-            </button>
+          {/* Right Section - Contact Form */}
+          <div className="message-section">
+            <h2>Send us a Message</h2>
+            <p className="form-subtitle">Fill out the form and we'll get back to you shortly.</p>
 
-            {submitStatus === 'success' && (
-              <div style={{
-                background: '#d4edda',
-                color: '#155724',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                textAlign: 'center',
-                fontSize: '14px',
-                fontWeight: '500'
-              }}>
-                ✓ Message sent successfully!
+            <form onSubmit={handleSubmit}>
+              {/* Name and Phone Row */}
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Phone</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="+91 ..."
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
-            )}
 
-            {submitStatus === 'error' && (
-              <div style={{
-                background: '#f8d7da',
-                color: '#721c24',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                textAlign: 'center',
-                fontSize: '14px',
-                fontWeight: '500'
-              }}>
-                ✗ Error sending message. Please try again.
+              {/* Email */}
+              <div className="form-group">
+                <label>Email (Optional)</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
               </div>
-            )}
 
-            {/* Divider */}
-            <div className="divider">OR</div>
+              {/* Message */}
+              <div className="form-group">
+                <label>Message</label>
+                <textarea
+                  name="message"
+                  placeholder="I'm interested in ..."
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                ></textarea>
+              </div>
 
-            {/* WhatsApp Button */}
-            <button 
-              type="button" 
-              className="whatsapp-btn"
-              onClick={handleWhatsAppClick}
-            >
-              💬 Chat on WhatsApp
-            </button>
-          </form>
+              {/* Send Button */}
+              <button
+                type="submit"
+                className="send-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? '⏳ Sending...' : '✈️ Send Message'}
+              </button>
+
+              {submitStatus === 'success' && (
+                <div style={{
+                  background: '#d4edda',
+                  color: '#155724',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}>
+                  ✓ Message sent successfully!
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div style={{
+                  background: '#f8d7da',
+                  color: '#721c24',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}>
+                  ✗ Error sending message. Please try again.
+                </div>
+              )}
+
+              {/* Divider */}
+              <div className="divider">OR</div>
+
+              {/* WhatsApp Button */}
+              <button
+                type="button"
+                className="whatsapp-btn"
+                onClick={handleWhatsAppClick}
+              >
+                💬 Chat on WhatsApp
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
       </div>
 
       {/* Google Map Section */}
       <section className="map-section mt-10">
-  <iframe
-    src="https://www.google.com/maps?q=Gorakhpur%20Uttar%20Pradesh&output=embed"
-    width="100%"
-    height="450"
-    style={{ border: 0, borderRadius: "24px" }}
-    allowFullScreen
-    loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-  ></iframe>
-</section>
+        <iframe
+          src="https://www.google.com/maps?q=Gorakhpur%20Uttar%20Pradesh&output=embed"
+          width="100%"
+          height="450"
+          style={{ border: 0, borderRadius: "24px" }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </section>
 
 
       {/* Footer */}
@@ -278,11 +282,29 @@ const Contact = ({ onNavigateToLogin, onNavigateToAbout, onNavigateToUsedCar, da
           <div className="footer-section">
             <h4>Quick Links</h4>
             <ul>
-              <li><a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a></li>
-              <li><a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a></li>
-              <li><a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a></li>
-              <li><a onClick={() => {}} style={{cursor: 'pointer'}}>Contact Us</a></li>
-              <li><a onClick={() => onNavigateToLogin?.()} style={{cursor: 'pointer'}}>Admin Login</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="/used-cars">Used Cars</a></li>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+              {user ? (
+                <>
+                  <li><a href="/dashboard" style={{ color: '#e63946' }}>Dashboard</a></li>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        signOut(auth).then(() => navigate('/'));
+                      }}
+                      style={{ color: '#text-secondary', opacity: 0.8 }}
+                    >
+                      Logout
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <li><a href="/login">Admin Login</a></li>
+              )}
             </ul>
           </div>
 

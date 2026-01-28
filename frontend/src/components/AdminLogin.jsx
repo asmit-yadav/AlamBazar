@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config/firebase';
 import '../styles/AdminLogin.css';
 
-const AdminLogin = ({ onNavigateToContact, onNavigateToAbout, onNavigateToUsedCar, darkMode, onToggleDarkMode }) => {
+const AdminLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -27,24 +31,22 @@ const AdminLogin = ({ onNavigateToContact, onNavigateToAbout, onNavigateToUsedCa
     try {
       // Add your API call here
       console.log('Admin login attempt:', formData);
-      
+
       if (!formData.email || !formData.password) {
         setError('Please fill in all fields');
         setIsLoading(false);
         return;
       }
 
-      // Simulate API call
-      setTimeout(() => {
-        if (formData.email === 'admin@fourwheelalam.com' && formData.password === 'admin123') {
-          console.log('Login successful');
-          // Redirect to dashboard
-          window.location.href = '/dashboard';
-        } else {
-          setError('Invalid email or password');
-        }
-        setIsLoading(false);
-      }, 1500);
+      // Real Firebase Login
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      console.log('Login successful');
+
+      // Get the ID token if needed for backend calls
+      // const token = await auth.currentUser.getIdToken();
+
+      // Navigate to dashboard
+      navigate('/dashboard');
     } catch (err) {
       console.error('Error during login:', err);
       setError('An error occurred. Please try again.');
@@ -53,11 +55,7 @@ const AdminLogin = ({ onNavigateToContact, onNavigateToAbout, onNavigateToUsedCa
   };
 
   const handleBackClick = () => {
-    if (onNavigateToContact) {
-      onNavigateToContact();
-    } else {
-      window.location.href = '/';
-    }
+    navigate('/');
   };
 
   return (
@@ -108,7 +106,7 @@ const AdminLogin = ({ onNavigateToContact, onNavigateToAbout, onNavigateToUsedCa
       {/* Right Section - Login Form */}
       <div className="login-right-section">
         <div className="login-form-container">
-          <a onClick={handleBackClick} className="back-button" style={{cursor: 'pointer'}}>
+          <a onClick={handleBackClick} className="back-button" style={{ cursor: 'pointer' }}>
             ← Back to Website
           </a>
 

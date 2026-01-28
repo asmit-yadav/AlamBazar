@@ -1,38 +1,26 @@
-import { useState, useEffect } from 'react'
-import Contact from './components/Contact'
-import AdminLogin from './components/AdminLogin'
-import About from './components/About'
-import UsedCar from './components/UsedCar'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './config/firebase';
+import Contact from './components/Contact';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
+import './App.css';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('login') // 'login', 'contact', 'about', or 'usedcar'
-  const [darkMode, setDarkMode] = useState(() => {
-    // Load dark mode preference from localStorage
-    const saved = localStorage.getItem('darkMode')
-    return saved !== null ? JSON.parse(saved) : false
-  })
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Update localStorage when dark mode changes
   useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode))
-    if (darkMode) {
-      document.documentElement.classList.add('dark-mode')
-    } else {
-      document.documentElement.classList.remove('dark-mode')
-    }
-  }, [darkMode])
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
-  }
-
-  const navigateToContact = () => {
-    setCurrentPage('contact')
-  }
-
-  const navigateToLogin = () => {
-    setCurrentPage('login')
+  if (loading) {
+    return <div className="loading-screen">Loading...</div>;
   }
 
   const navigateToAbout = () => {
@@ -44,44 +32,20 @@ function App() {
   }
 
   return (
-    <>
-      <div>
-        {currentPage === 'login' ? (
-          <AdminLogin 
-            onNavigateToContact={navigateToContact} 
-            onNavigateToAbout={navigateToAbout}
-            onNavigateToUsedCar={navigateToUsedCar}
-            darkMode={darkMode}
-            onToggleDarkMode={toggleDarkMode}
-          />
-        ) : currentPage === 'about' ? (
-          <About 
-            onNavigateToLogin={navigateToLogin}
-            onNavigateToContact={navigateToContact}
-            onNavigateToUsedCar={navigateToUsedCar}
-            darkMode={darkMode}
-            onToggleDarkMode={toggleDarkMode}
-          />
-        ) : currentPage === 'usedcar' ? (
-          <UsedCar 
-            onNavigateToAbout={navigateToAbout}
-            onNavigateToContact={navigateToContact}
-            onNavigateToLogin={navigateToLogin}
-            darkMode={darkMode}
-            onToggleDarkMode={toggleDarkMode}
-          />
-        ) : (
-          <Contact 
-            onNavigateToLogin={navigateToLogin} 
-            onNavigateToAbout={navigateToAbout}
-            onNavigateToUsedCar={navigateToUsedCar}
-            darkMode={darkMode}
-            onToggleDarkMode={toggleDarkMode}
-          />
-        )}
-      </div>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Contact user={user} />} />
+        <Route
+          path="/login"
+          element={!user ? <AdminLogin /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path="/dashboard"
+          element={user ? <AdminDashboard /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
