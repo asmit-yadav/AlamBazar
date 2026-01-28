@@ -23,6 +23,14 @@ function App() {
     return <div className="loading-screen">Loading...</div>;
   }
 
+  const navigateToAbout = () => {
+    setCurrentPage('about')
+  }
+
+  const navigateToUsedCar = () => {
+    setCurrentPage('usedcar')
+  }
+
   return (
     <Router>
       <Routes>

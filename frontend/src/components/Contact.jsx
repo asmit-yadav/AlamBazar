@@ -67,14 +67,23 @@ const Contact = ({ user }) => {
             <p>CAR BAZAR PVT LTD</p>
           </div>
           <nav className="nav-menu">
-            <a href="/">Home</a>
-            <a href="/used-cars">Used Cars</a>
-            <a href="/about">About Us</a>
-            <a href="/contact" className="active">Contact</a>
+            <a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a>
+            <a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a>
+            <a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a>
+            <a href="/contact" className="active" style={{cursor: 'pointer'}}>Contact</a>
           </nav>
-          <a href="tel:+919918476777" className="phone-btn">
-            📞 +91 99184 76777
-          </a>
+          <div className="header-actions">
+            <button 
+              className="dark-mode-toggle" 
+              onClick={onToggleDarkMode}
+              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {darkMode ? '☀️' : '🌙'}
+            </button>
+            <a href="tel:+919918476777" className="phone-btn">
+              📞 +91 99184 76777
+            </a>
+          </div>
         </div>
       </header>
 

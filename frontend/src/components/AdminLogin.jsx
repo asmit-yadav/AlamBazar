@@ -60,8 +60,37 @@ const AdminLogin = () => {
 
   return (
     <div className="admin-login-wrapper">
-      {/* Left Section - Branding */}
-      <div className="login-left-section">
+      {/* Header Navigation */}
+      <header className="admin-header">
+        <div className="header-content">
+          <div className="logo">
+            <h1>FOUR WHEEL <span className="alam">ALAM</span></h1>
+            <p>CAR BAZAR PVT LTD</p>
+          </div>
+          <nav className="nav-menu">
+            <a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Home</a>
+            <a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Used Cars</a>
+            <a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a>
+            <a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Contact</a>
+          </nav>
+          <div className="header-actions">
+            <button 
+              className="dark-mode-toggle" 
+              onClick={onToggleDarkMode}
+              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {darkMode ? '☀️' : '🌙'}
+            </button>
+            <a href="tel:+919918476777" className="phone-btn">
+              📞 +91 99184 76777
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div className="login-container">
+        {/* Left Section - Branding */}
+        <div className="login-left-section">
         <div className="login-content">
           <div className="shield-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -156,6 +185,7 @@ const AdminLogin = () => {
             <p>© 2026 Four Wheel Alam Car Bazar.</p>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

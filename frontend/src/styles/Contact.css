@@ -927,3 +927,128 @@ form {
   }
 }
 
+/* Dark Mode Styles for Contact */
+:root.dark-mode .contact-wrapper {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+:root.dark-mode .contact-header {
+  background: linear-gradient(135deg, #1a1a1a 0%, #242424 100%);
+  border-bottom: 2px solid #404040;
+}
+
+:root.dark-mode .logo h1 {
+  color: #e0e0e0;
+}
+
+:root.dark-mode .logo p {
+  color: #b0b0b0;
+}
+
+:root.dark-mode .nav-menu a {
+  color: #b0b0b0;
+}
+
+:root.dark-mode .nav-menu a:hover,
+:root.dark-mode .nav-menu a.active {
+  color: #ff6b6b;
+}
+
+:root.dark-mode .phone-btn {
+  background-color: #dc143c;
+  color: #ffffff;
+  border-color: #ff4757;
+}
+
+:root.dark-mode .contact-main {
+  background-color: #1a1a1a;
+}
+
+:root.dark-mode .contact-content {
+  background-color: #242424;
+  border-color: #404040;
+}
+
+:root.dark-mode .contact-form-section h2,
+:root.dark-mode .contact-info-section h2 {
+  color: #e0e0e0;
+}
+
+:root.dark-mode .contact-form-section p,
+:root.dark-mode .contact-info-section p {
+  color: #b0b0b0;
+}
+
+:root.dark-mode .form-group label {
+  color: #e0e0e0;
+}
+
+:root.dark-mode .form-group input,
+:root.dark-mode .form-group textarea {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  border-color: #404040;
+}
+
+:root.dark-mode .form-group input::placeholder,
+:root.dark-mode .form-group textarea::placeholder {
+  color: #808080;
+}
+
+:root.dark-mode .form-group input:focus,
+:root.dark-mode .form-group textarea:focus {
+  border-color: #dc143c;
+  background-color: #454545;
+}
+
+:root.dark-mode .submit-btn {
+  background: linear-gradient(135deg, #dc143c 0%, #ff4757 100%);
+  color: #ffffff;
+  border: none;
+}
+
+:root.dark-mode .submit-btn:hover {
+  box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+}
+
+:root.dark-mode .contact-info-section {
+  color: #b0b0b0;
+}
+
+:root.dark-mode .info-item h3 {
+  color: #e0e0e0;
+}
+
+:root.dark-mode .info-item p {
+  color: #b0b0b0;
+}
+
+:root.dark-mode .social-links a {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+}
+
+:root.dark-mode .social-links a:hover {
+  background-color: #dc143c;
+  color: #ffffff;
+}
+
+:root.dark-mode .footer {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-top: 2px solid #404040;
+  color: #b0b0b0;
+}
+
+:root.dark-mode .footer h3 {
+  color: #e0e0e0;
+}
+
+:root.dark-mode .footer-links a {
+  color: #b0b0b0;
+}
+
+:root.dark-mode .footer-links a:hover {
+  color: #ff6b6b;
+}
+
