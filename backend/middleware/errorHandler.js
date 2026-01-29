@@ -10,7 +10,7 @@ export const errorHandler = (err, req, res, next) => {
   let errors = err.errors;
 
   // Firebase Admin errors
-  if (err.code && err.code.startsWith('auth/')) {
+  if (err.code && typeof err.code === 'string' && err.code.startsWith('auth/')) {
     statusCode = 401;
     message = 'Authentication failed';
   }

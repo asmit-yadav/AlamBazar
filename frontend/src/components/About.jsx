@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/About.css';
 
 
-const About = ({ onNavigateToLogin, onNavigateToContact, onNavigateToUsedCar, darkMode, onToggleDarkMode }) => {
+const About = () => {
+  const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
+  const onToggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode');
+  };
   const [activeTab, setActiveTab] = useState(null);
 
   const features = [
@@ -87,14 +94,14 @@ const About = ({ onNavigateToLogin, onNavigateToContact, onNavigateToUsedCar, da
             <p>CAR BAZAR PVT LTD</p>
           </div>
           <nav className="nav-menu">
-            <a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a>
-            <a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a>
-            <a className="active" style={{cursor: 'pointer'}}>About Us</a>
-            <a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Contact</a>
+            <a onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Home</a>
+            <a onClick={() => navigate('/used-cars')} style={{ cursor: 'pointer' }}>Used Cars</a>
+            <a className="active" style={{ cursor: 'pointer' }}>About Us</a>
+            <a onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>Contact</a>
           </nav>
           <div className="header-actions">
-            <button 
-              className="dark-mode-toggle" 
+            <button
+              className="dark-mode-toggle"
               onClick={onToggleDarkMode}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
@@ -122,7 +129,7 @@ const About = ({ onNavigateToLogin, onNavigateToContact, onNavigateToUsedCar, da
             <div className="about-content">
               <h3 className="section-label">WHO WE ARE</h3>
               <h2>Redefining the Used Car Buying Experience</h2>
-              
+
               <p className="description">
                 At Yash Car Bazaar, we believe buying a used car should be as exciting and worry-free as buying a new one. Founded with a vision to bring transparency to the pre-owned car market in Gorakhpur, we have served over 1,000+ happy families.
               </p>
@@ -223,7 +230,7 @@ const About = ({ onNavigateToLogin, onNavigateToContact, onNavigateToUsedCar, da
             <div className="gallery-grid">
               {galleryImages.map(image => (
                 <div key={image.id} className="gallery-item">
-                  <img 
+                  <img
                     src={`https://via.placeholder.com/200x150?text=${image.alt}`}
                     alt={image.alt}
                   />
@@ -281,11 +288,11 @@ const About = ({ onNavigateToLogin, onNavigateToContact, onNavigateToUsedCar, da
           <div className="footer-section">
             <h4>Quick Links</h4>
             <ul>
-              <li><a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a></li>
-              <li><a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a></li>
-              <li><a onClick={() => {}} style={{cursor: 'pointer'}}>About Us</a></li>
-              <li><a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Contact Us</a></li>
-              <li><a onClick={() => onNavigateToLogin?.()} style={{cursor: 'pointer'}}>Admin Login</a></li>
+              <li><a onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Home</a></li>
+              <li><a onClick={() => navigate('/used-cars')} style={{ cursor: 'pointer' }}>Used Cars</a></li>
+              <li><a onClick={() => { }} style={{ cursor: 'pointer' }}>About Us</a></li>
+              <li><a onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>Contact Us</a></li>
+              <li><a href="/login">Admin Login</a></li>
             </ul>
           </div>
 
