@@ -5,6 +5,8 @@ import { auth } from './config/firebase';
 import Contact from './components/Contact';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
+import UsedCar from './components/UsedCar';
+import About from './components/About';
 import './App.css';
 
 function App() {
@@ -23,24 +25,23 @@ function App() {
     return <div className="loading-screen">Loading...</div>;
   }
 
-  const navigateToAbout = () => {
-    setCurrentPage('about')
-  }
-
-  const navigateToUsedCar = () => {
-    setCurrentPage('usedcar')
-  }
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Contact user={user} />} />
+        <Route path="/used-cars" element={<UsedCar />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="/login"
           element={!user ? <AdminLogin /> : <Navigate to="/dashboard" />}
         />
         <Route
           path="/dashboard"
+          element={user ? <AdminDashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/admin-dashboard"
           element={user ? <AdminDashboard /> : <Navigate to="/login" />}
         />
       </Routes>

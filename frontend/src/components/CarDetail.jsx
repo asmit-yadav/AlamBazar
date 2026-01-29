@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import '../styles/CarDetail.css';
 
 const CarDetail = ({ car, onBack, darkMode, onToggleDarkMode }) => {
-  const [mainImage, setMainImage] = useState(car.image);
+  // Handle images - use uploaded images or fallback
+  const images = car.images && car.images.length > 0
+    ? car.images
+    : ['https://via.placeholder.com/800x600?text=No+Image_Available'];
+
+  const [mainImage, setMainImage] = useState(images[0]);
   const [selectedImage, setSelectedImage] = useState(0);
 
   if (!car) {
     return <div>Car not found</div>;
   }
 
-  const thumbnailImages = [car.image, car.image, car.image]; // Add more images as needed
+  const thumbnailImages = images;
 
   const carSpecs = [
     { label: 'Brand', value: car.brand },
@@ -41,11 +46,11 @@ const CarDetail = ({ car, onBack, darkMode, onToggleDarkMode }) => {
             <h1>Yash Car <span className="bazaar">Bazaar</span></h1>
           </div>
           <nav className="nav-menu">
-            <a onClick={onBack} style={{cursor: 'pointer'}}>Back to Listings</a>
+            <a onClick={onBack} style={{ cursor: 'pointer' }}>Back to Listings</a>
           </nav>
           <div className="header-actions">
-            <button 
-              className="dark-mode-toggle" 
+            <button
+              className="dark-mode-toggle"
               onClick={onToggleDarkMode}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
@@ -89,7 +94,7 @@ const CarDetail = ({ car, onBack, darkMode, onToggleDarkMode }) => {
           <div className="car-info-section">
             {/* Title */}
             <h2 className="car-model-title">{car.model}</h2>
-            
+
             {/* Location Badge */}
             <div className="location-badge">
               📍 Available at Yash Car Bazaar, Gorakhpur

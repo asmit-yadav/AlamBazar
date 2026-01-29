@@ -51,6 +51,13 @@ const Contact = ({ user }) => {
     }
   };
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode');
+  };
+
   const handleWhatsAppClick = () => {
     const message = `Hello, I'm interested in your services. My name is ${formData.name || 'User'}`;
     const whatsappUrl = `https://wa.me/919918476777?text=${encodeURIComponent(message)}`;
@@ -58,7 +65,7 @@ const Contact = ({ user }) => {
   };
 
   return (
-    <div className="contact-wrapper">
+    <div className={`contact-wrapper ${darkMode ? 'dark-mode' : ''}`}>
       {/* Header */}
       <header className="contact-header">
         <div className="header-content">
@@ -67,15 +74,16 @@ const Contact = ({ user }) => {
             <p>CAR BAZAR PVT LTD</p>
           </div>
           <nav className="nav-menu">
-            <a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a>
-            <a onClick={() => onNavigateToUsedCar?.()} style={{cursor: 'pointer'}}>Used Cars</a>
-            <a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a>
-            <a href="/contact" className="active" style={{cursor: 'pointer'}}>Contact</a>
+            <a onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Home</a>
+            <a onClick={() => navigate('/used-cars')} style={{ cursor: 'pointer' }}>Used Cars</a>
+            <a onClick={() => navigate('/about')} style={{ cursor: 'pointer' }}>About Us</a>
+            <a onClick={() => navigate('/contact')} className="active" style={{ cursor: 'pointer' }}>Contact</a>
+            <a onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>Admin</a>
           </nav>
           <div className="header-actions">
-            <button 
-              className="dark-mode-toggle" 
-              onClick={onToggleDarkMode}
+            <button
+              className="dark-mode-toggle"
+              onClick={toggleDarkMode}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {darkMode ? '☀️' : '🌙'}

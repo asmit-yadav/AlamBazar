@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/UsedCar.css';
 import CarDetail from './CarDetail';
 
-const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, darkMode, onToggleDarkMode }) => {
+const UsedCar = () => {
+  const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
+  const onToggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode');
+  };
   const [filters, setFilters] = useState({
     search: '',
     brand: 'All',
     priceMin: 0,
-    priceMax: 2000000,
+    priceMax: 5000000,
     fuelType: 'All',
     transmission: 'Any'
   });
@@ -18,128 +25,31 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
   const [selectedCar, setSelectedCar] = useState(null);
 
   // Sample car data - replace with API data
-  const carsData = [
-    {
-      id: 1,
-      brand: 'Maruti Suzuki',
-      model: 'EECO 5 STR AC',
-      year: 2019,
-      fuel: 'Petrol',
-      mileage: 120000,
-      price: 370000,
-      image: 'https://via.placeholder.com/280x200?text=Maruti+Suzuki'
-    },
-    {
-      id: 2,
-      brand: 'Hyundai',
-      model: 'CRETA SX AMT',
-      year: 2017,
-      fuel: 'Petrol',
-      mileage: 71000,
-      price: 680000,
-      image: 'https://via.placeholder.com/280x200?text=Hyundai+Creta'
-    },
-    {
-      id: 3,
-      brand: 'Hyundai',
-      model: 'VENUE 1.2 MT KAPPA',
-      year: 2022,
-      fuel: 'Petrol',
-      mileage: 44000,
-      price: 675000,
-      image: 'https://via.placeholder.com/280x200?text=Hyundai+Venue'
-    },
-    {
-      id: 4,
-      brand: 'Honda',
-      model: 'CITY SV CVT',
-      year: 2020,
-      fuel: 'Petrol',
-      mileage: 55000,
-      price: 550000,
-      image: 'https://via.placeholder.com/280x200?text=Honda+City'
-    },
-    {
-      id: 5,
-      brand: 'Tata',
-      model: 'NEXON XT 2021',
-      year: 2021,
-      fuel: 'Diesel',
-      mileage: 38000,
-      price: 720000,
-      image: 'https://via.placeholder.com/280x200?text=Tata+Nexon'
-    },
-    {
-      id: 6,
-      brand: 'Mahindra',
-      model: 'XUV 300 W6',
-      year: 2019,
-      fuel: 'Petrol',
-      mileage: 62000,
-      price: 620000,
-      image: 'https://via.placeholder.com/280x200?text=Mahindra+XUV'
-    },
-    {
-      id: 7,
-      brand: 'Toyota',
-      model: 'FORTUNER 4X4',
-      year: 2018,
-      fuel: 'Diesel',
-      mileage: 95000,
-      price: 1200000,
-      image: 'https://via.placeholder.com/280x200?text=Toyota+Fortuner'
-    },
-    {
-      id: 8,
-      brand: 'Maruti Suzuki',
-      model: 'SWIFT LDI MT',
-      year: 2020,
-      fuel: 'Diesel',
-      mileage: 48000,
-      price: 420000,
-      image: 'https://via.placeholder.com/280x200?text=Maruti+Swift'
-    },
-    {
-      id: 9,
-      brand: 'Hyundai',
-      model: 'I20 SPORTZ',
-      year: 2019,
-      fuel: 'Petrol',
-      mileage: 65000,
-      price: 480000,
-      image: 'https://via.placeholder.com/280x200?text=Hyundai+i20'
-    },
-    {
-      id: 10,
-      brand: 'Honda',
-      model: 'AMAZE MT',
-      year: 2021,
-      fuel: 'Petrol',
-      mileage: 32000,
-      price: 580000,
-      image: 'https://via.placeholder.com/280x200?text=Honda+Amaze'
-    },
-    {
-      id: 11,
-      brand: 'Tata',
-      model: 'HARRIER XT PLUS',
-      year: 2020,
-      fuel: 'Diesel',
-      mileage: 51000,
-      price: 950000,
-      image: 'https://via.placeholder.com/280x200?text=Tata+Harrier'
-    },
-    {
-      id: 12,
-      brand: 'Mahindra',
-      model: 'BOLERO PIK-UP',
-      year: 2018,
-      fuel: 'Diesel',
-      mileage: 78000,
-      price: 380000,
-      image: 'https://via.placeholder.com/280x200?text=Mahindra+Bolero'
-    }
-  ];
+  const [carsData, setCarsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/cars?limit=100'); // Fetch enough for demo
+        const result = await response.json();
+
+        if (result.success) {
+          setCarsData(result.data.cars);
+        } else {
+          throw new Error(result.error?.message || 'Failed to fetch cars');
+        }
+      } catch (err) {
+        console.error("Error fetching cars:", err);
+        setError("Could not load inventory. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCars();
+  }, []);
 
   const brands = ['All', 'Maruti Suzuki', 'Hyundai', 'Honda', 'Tata', 'Mahindra', 'Toyota'];
   const fuelTypes = ['All', 'Petrol', 'Diesel', 'CNG'];
@@ -150,8 +60,8 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
     const matchesPrice = car.price >= filters.priceMin && car.price <= filters.priceMax;
     const matchesFuel = filters.fuelType === 'All' || car.fuel === filters.fuelType;
     const matchesSearch = car.model.toLowerCase().includes(filters.search.toLowerCase()) ||
-                         car.brand.toLowerCase().includes(filters.search.toLowerCase());
-    
+      car.brand.toLowerCase().includes(filters.search.toLowerCase());
+
     return matchesBrand && matchesPrice && matchesFuel && matchesSearch;
   });
 
@@ -181,7 +91,7 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
       search: '',
       brand: 'All',
       priceMin: 0,
-      priceMax: 2000000,
+      priceMax: 5000000,
       fuelType: 'All',
       transmission: 'Any'
     });
@@ -196,8 +106,8 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
   // If a car is selected, show the detail view
   if (selectedCar) {
     return (
-      <CarDetail 
-        car={selectedCar} 
+      <CarDetail
+        car={selectedCar}
         onBack={() => setSelectedCar(null)}
         darkMode={darkMode}
         onToggleDarkMode={onToggleDarkMode}
@@ -214,14 +124,15 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
             <h1>Yash Car <span className="bazaar">Bazaar</span></h1>
           </div>
           <nav className="nav-menu">
-            <a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a>
-            <a onClick={() => {}} className="active" style={{cursor: 'pointer'}}>Used Cars</a>
-            <a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a>
-            <a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Contact</a>
+            <a onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Home</a>
+            <a onClick={() => { }} className="active" style={{ cursor: 'pointer' }}>Used Cars</a>
+            <a onClick={() => navigate('/about')} style={{ cursor: 'pointer' }}>About Us</a>
+            <a onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>Contact</a>
+            <a onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>Admin</a>
           </nav>
           <div className="header-actions">
-            <button 
-              className="dark-mode-toggle" 
+            <button
+              className="dark-mode-toggle"
               onClick={onToggleDarkMode}
               title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
@@ -265,7 +176,7 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
           <div className="filter-group">
             <label>Brand</label>
             <div className="custom-dropdown">
-              <button 
+              <button
                 className="dropdown-toggle"
                 onClick={() => setIsBrandDropdownOpen(!isBrandDropdownOpen)}
               >
@@ -298,12 +209,12 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
           <div className="filter-group">
             <label>Price Range</label>
             <div className="price-range-display">
-              <span className="price-label">₹0.0L - ₹20.0L+</span>
+              <span className="price-label">₹0.0L - ₹50.0L+</span>
             </div>
             <input
               type="range"
               min="0"
-              max="2000000"
+              max="5000000"
               value={filters.priceMax}
               onChange={(e) => handleFilterChange('priceMax', parseInt(e.target.value))}
               className="price-slider"
@@ -333,7 +244,7 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
           {/* Transmission */}
           <div className="filter-group">
             <label>Transmission</label>
-            <select 
+            <select
               value={filters.transmission}
               onChange={(e) => handleFilterChange('transmission', e.target.value)}
               className="filter-select"
@@ -360,7 +271,7 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
             <div className="sort-container">
               <label>Sort by:</label>
               <div className="custom-dropdown sort-dropdown">
-                <button 
+                <button
                   className="dropdown-toggle sort-toggle"
                   onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
                 >
@@ -416,19 +327,25 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
           </div>
 
           {/* Cars Grid */}
-          {sortedCars.length > 0 ? (
-            <div className="cars-grid">
-              {sortedCars.map(car => (
+          <div className="cars-grid">
+            {loading ? (
+              <div className="loading-state">Loading inventory...</div>
+            ) : sortedCars.length > 0 ? (
+              sortedCars.map(car => (
                 <div key={car.id} className="car-card">
                   <div className="car-image-wrapper">
-                    <img src={car.image} alt={car.model} className="car-image" />
+                    <img
+                      src={car.images && car.images.length > 0 ? car.images[0] : 'https://via.placeholder.com/280x200?text=No+Image'}
+                      alt={car.model}
+                      className="car-image"
+                    />
                     <span className="used-badge">Used</span>
                     <div className="car-view-badge">360° View</div>
                   </div>
 
                   <div className="car-details">
                     <h3 className="car-brand">{car.brand}</h3>
-                    <h2 className="car-model">{car.model}</h2>
+                    <h2 className="car-model">{car.model} {car.variant}</h2>
 
                     <div className="car-specs">
                       <div className="spec">
@@ -437,11 +354,11 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
                       </div>
                       <div className="spec">
                         <span className="spec-icon">⛽</span>
-                        <span className="spec-value">{car.fuel}</span>
+                        <span className="spec-value">{car.fuelType || car.fuel}</span>
                       </div>
                       <div className="spec">
                         <span className="spec-icon">🛣</span>
-                        <span className="spec-value">{car.mileage.toLocaleString()} km</span>
+                        <span className="spec-value">{car.mileage ? car.mileage.toLocaleString() : 'N/A'} km</span>
                       </div>
                     </div>
 
@@ -450,7 +367,7 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
                         <label>Price</label>
                         <h3 className="car-price">₹{(car.price / 100000).toFixed(2)}L</h3>
                       </div>
-                      <button 
+                      <button
                         className="view-detail-btn"
                         onClick={() => setSelectedCar(car)}
                         title="View Details"
@@ -460,13 +377,13 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="no-results">
-              <p>No cars found matching your filters. Please try adjusting your search.</p>
-            </div>
-          )}
+              ))
+            ) : (
+              <div className="no-results">
+                <p>No cars found matching your filters. Please try adjusting your search.</p>
+              </div>
+            )}
+          </div>
         </section>
       </div>
 
@@ -490,11 +407,11 @@ const UsedCar = ({ onNavigateToAbout, onNavigateToContact, onNavigateToLogin, da
           <div className="footer-section">
             <h4>Quick Links</h4>
             <ul>
-              <li><a onClick={() => window.location.reload()} style={{cursor: 'pointer'}}>Home</a></li>
-              <li><a onClick={() => {}} style={{cursor: 'pointer'}}>Used Cars</a></li>
-              <li><a onClick={() => onNavigateToAbout?.()} style={{cursor: 'pointer'}}>About Us</a></li>
-              <li><a onClick={() => onNavigateToContact?.()} style={{cursor: 'pointer'}}>Contact Us</a></li>
-              <li><a onClick={() => onNavigateToLogin?.()} style={{cursor: 'pointer'}}>Admin Login</a></li>
+              <li><a onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Home</a></li>
+              <li><a onClick={() => { }} style={{ cursor: 'pointer' }}>Used Cars</a></li>
+              <li><a onClick={() => navigate('/about')} style={{ cursor: 'pointer' }}>About Us</a></li>
+              <li><a onClick={() => navigate('/contact')} style={{ cursor: 'pointer' }}>Contact Us</a></li>
+              <li><a href="/login">Admin Login</a></li>
             </ul>
           </div>
 
